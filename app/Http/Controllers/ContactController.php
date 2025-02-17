@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Contact;
+
 class ContactController extends Controller
 {
     /**
@@ -11,7 +13,10 @@ class ContactController extends Controller
      */
     public function index()
     {
-        echo "Hello, World!";
+        $contacts = Contact::latest()->paginate(5);
+          
+        return view('contacts.index', compact('contacts'))
+                    ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
