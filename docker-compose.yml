@@ -21,9 +21,9 @@ services:
       - laravel-app-network
 
   #Nginx Service
-  webserver:
+  laravel-crud-webserver:
     image: nginx:alpine
-    container_name: webserver
+    container_name: laravel-crud-webserver
     restart: unless-stopped
     tty: true
     ports:
@@ -36,9 +36,9 @@ services:
       - laravel-app-network
 
   #MySQL Service
-  db:
+  laravel-crud-db:
     image: mysql:5.7.22
-    container_name: db
+    container_name: laravel-crud-db
     restart: unless-stopped
     tty: true
     ports:
