@@ -12,7 +12,7 @@ Route::name('contacts.')->group(function () {
     Route::get('/show/{id}', [ContactController::class, 'show'])->name('show');
 
     Route::get('/edit/{id}', [ContactController::class, 'edit'])->name('edit');
-    Route::post('/update/{id}', [ContactController::class, 'update'])->name('update');
+    Route::put('/update/{id}', [ContactController::class, 'update'])->name('update');
 
     Route::get('/delete', [ContactController::class, 'create'])->name('destroy');
 });

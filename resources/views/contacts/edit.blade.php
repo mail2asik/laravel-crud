@@ -18,7 +18,7 @@
                 <label for="inputTitle" class="form-label"><strong>Name:</strong></label>
                 <input 
                     type="text" 
-                    Title="Name" 
+                    name="name" 
                     value="{{ $contact->name }}"
                     class="form-control @error('name') is-invalid @enderror" 
                     placeholder="Name">
@@ -31,11 +31,11 @@
                 <label for="inputcontent" class="form-label"><strong>Phone Number:</strong></label>
                 <input 
                     type="text" 
-                    Title="Phone Number" 
+                    name="phone_number" 
                     value="{{ $contact->phone_number }}"
                     class="form-control @error('phone_number') is-invalid @enderror" 
                     placeholder="Phone Number">
-                @error('name')
+                @error('phone_number')
                     <div class="form-text text-danger">{{ $message }}</div>
                 @enderror
             </div>

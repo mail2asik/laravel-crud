@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactStoreRequest;
+use App\Http\Requests\ContactUpdateRequest;
 use Illuminate\Http\Request;
 
 use App\Models\Contact;
@@ -60,9 +61,14 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ContactUpdateRequest $request, string $id)
     {
-        //
+        $contact = Contact::find($id);
+
+        $contact->update($request->validated());
+          
+        return redirect()->route('contacts.index')
+                        ->with('success', 'Contact updated successfully');
     }
 
     /**
