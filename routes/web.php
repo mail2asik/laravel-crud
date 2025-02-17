@@ -14,5 +14,5 @@ Route::name('contacts.')->group(function () {
     Route::get('/edit/{id}', [ContactController::class, 'edit'])->name('edit');
     Route::put('/update/{id}', [ContactController::class, 'update'])->name('update');
 
-    Route::get('/delete', [ContactController::class, 'create'])->name('destroy');
+    Route::get('/delete/{id}', [ContactController::class, 'destroy'])->name('destroy');
 });

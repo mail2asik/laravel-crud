@@ -31,7 +31,7 @@
                         <td>{{ $contact->name }}</td>
                         <td>{{ $contact->phone_number }}</td>
                         <td>
-                            <form action="{{ route('contacts.destroy',$contact->id) }}" method="POST">
+                            <form action="{{ route('contacts.destroy',$contact->id) }}" method="GET">
                                 <a class="btn btn-info btn-sm" href="{{ route('contacts.show',$contact->id) }}"><i class="fa-solid fa-list"></i> Show</a>
                                 <a class="btn btn-primary btn-sm" href="{{ route('contacts.edit',$contact->id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                                 @csrf

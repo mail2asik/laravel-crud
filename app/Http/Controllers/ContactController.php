@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
-use Illuminate\Http\Request;
 
 use App\Models\Contact;
 
@@ -76,6 +75,11 @@ class ContactController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $contact = Contact::find($id);
+
+        $contact->delete();
+           
+        return redirect()->route('contacts.index')
+                        ->with('success', 'Contact deleted successfully');
     }
 }
