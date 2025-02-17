@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactStoreRequest;
 use Illuminate\Http\Request;
 
 use App\Models\Contact;
@@ -30,9 +31,12 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ContactStoreRequest $request)
     {
-        //
+        Contact::create($request->validated());
+           
+        return redirect()->route('contacts.index')
+                         ->with('success', 'Contact created successfully.');
     }
 
     /**
