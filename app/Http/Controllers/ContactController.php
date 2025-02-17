@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactBulkStoreRequest;
 use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
 use App\Repositories\ContactRepository;
@@ -112,5 +113,26 @@ class ContactController extends Controller
         } catch (Exception $e) {
             return redirect()->route('contacts.index')->with('error', 'Contact not found.');
         }
+    }
+
+    /**
+     * Show the form for creating a bulk import contacts.
+     */
+    public function xmlBulkCreate()
+    {
+        return view('contacts.xmlBulkCreate');
+    }
+
+    /**
+     * Store a newly created xml bulk import in storage.
+     */
+    public function xmlBulkStore(ContactBulkStoreRequest $request)
+    {
+        $params = $request->validated();
+
+        $this->contactRepository->importContacts($request);
+                  
+        return redirect()->route('contacts.index')
+                         ->with('success', 'Contact imported successfully.');
     }
 }

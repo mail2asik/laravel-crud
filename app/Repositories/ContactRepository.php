@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\ContactException;
 use App\Repositories\Traits\ModelTrait;
+use XMLReader;
 
 class ContactRepository
 {
@@ -178,6 +179,61 @@ class ContactRepository
         } catch (\Exception $e) {
             Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'Unknown Exception thrown ContactRepository@deleteContactByUid', [
+                'exception_type' => get_class($e),
+                'message'        => $e->getMessage(),
+                'code'           => $e->getCode(),
+                'line_no'        => $e->getLine(),
+                'params'         => func_get_args()
+            ]);
+
+            throw new ContactException($e->getMessage(), $e->getCode());
+        }
+    }
+
+
+    /**
+     * Import contacts
+     * Request $request
+     * @return Contact
+     * @throws ContactException
+     */
+    public function importContacts($request)
+    {
+        try {
+            
+            $file = $request->file('file');
+
+            $xmlString = file_get_contents($file);
+            $xmlObject = simplexml_load_string($xmlString);
+                    
+            $json = json_encode($xmlObject);
+            $phpArray = json_decode($json, true); 
+
+            $contacts = $phpArray['Contact'];
+    
+            foreach ($contacts as $contact) {
+                $this->create([
+                    "name" => $contact['Name'],
+                    "phone_number" => $contact['PhoneNumber']
+                ]);
+            }
+
+            return true;
+
+        } catch (ContactException $e) {
+            Log::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'ContactException thrown ContactRepository@create', [
+                'exception_type' => get_class($e),
+                'message'        => $e->getMessage(),
+                'code'           => $e->getCode(),
+                'line_no'        => $e->getLine(),
+                'params'         => func_get_args()
+            ]);
+
+            throw $e;
+        } catch (\Exception $e) {
+            Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
+                'Unknown Exception thrown ContactRepository@create', [
                 'exception_type' => get_class($e),
                 'message'        => $e->getMessage(),
                 'code'           => $e->getCode(),

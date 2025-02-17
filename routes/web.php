@@ -15,4 +15,7 @@ Route::name('contacts.')->group(function () {
     Route::put('/update/{uid}', [ContactController::class, 'update'])->name('update');
 
     Route::get('/delete/{uid}', [ContactController::class, 'destroy'])->name('destroy');
+
+    Route::get('/xml-bulk-create', [ContactController::class, 'xmlBulkCreate'])->name('xmlBulkCreate');
+    Route::post('/xml-bulk-store', [ContactController::class, 'xmlBulkStore'])->name('xmlBulkStore');
 });

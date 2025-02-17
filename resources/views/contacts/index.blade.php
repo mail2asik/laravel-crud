@@ -15,13 +15,13 @@
         @endif
 
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-warning btn-sm" href="{{ route('contacts.xmlBulkCreate') }}"><i class="fa fa-plus"></i> Import Contacts</a>
             <a class="btn btn-success btn-sm" href="{{ route('contacts.create') }}"><i class="fa fa-plus"></i> Create New Contact</a>
         </div>
 
         <table class="table table-bordered table-striped mt-4">
             <thead>
                 <tr>
-                    <th width="80px">No</th>
                     <th>Name</th>
                     <th>Phone Number</th>
                     <th width="250px">Action</th>
@@ -31,7 +31,6 @@
             <tbody>
                 @forelse ($contacts as $contact)
                     <tr>
-                        <td>{{ ++$i }}</td>
                         <td>{{ $contact->name }}</td>
                         <td>{{ $contact->phone_number }}</td>
                         <td>
