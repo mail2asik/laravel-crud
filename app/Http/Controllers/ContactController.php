@@ -128,11 +128,15 @@ class ContactController extends Controller
      */
     public function xmlBulkStore(ContactBulkStoreRequest $request)
     {
-        $params = $request->validated();
+        try {
+            $params = $request->validated();
 
-        $this->contactRepository->importContacts($request);
-                  
-        return redirect()->route('contacts.index')
-                         ->with('success', 'Contact imported successfully.');
+            $this->contactRepository->importContacts($request);
+                    
+            return redirect()->route('contacts.index')
+                            ->with('success', 'Contact imported successfully.');
+        } catch (Exception $e) {
+            return redirect()->route('contacts.index')->with('error', 'Something wrong. Please check file format');
+        }
     }
 }

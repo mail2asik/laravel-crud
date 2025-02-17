@@ -25,7 +25,7 @@
                     <div class="form-text text-danger">{{ $message }}</div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Submit</button>
+            <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Submit</button> &nbsp; <a href="/static/contacts.xml"> Sample Format </a>
         </form>
 
     </div>

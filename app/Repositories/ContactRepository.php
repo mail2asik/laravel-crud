@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use App\Exceptions\ContactException;
 use App\Repositories\Traits\ModelTrait;
-use XMLReader;
 
 class ContactRepository
 {
