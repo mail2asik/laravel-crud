@@ -9,10 +9,10 @@ Route::name('contacts.')->group(function () {
     Route::get('/create', [ContactController::class, 'create'])->name('create');
     Route::post('/store', [ContactController::class, 'store'])->name('store');
 
-    Route::get('/show/{id}', [ContactController::class, 'show'])->name('show');
+    Route::get('/show/{uid}', [ContactController::class, 'show'])->name('show');
 
-    Route::get('/edit/{id}', [ContactController::class, 'edit'])->name('edit');
-    Route::put('/update/{id}', [ContactController::class, 'update'])->name('update');
+    Route::get('/edit/{uid}', [ContactController::class, 'edit'])->name('edit');
+    Route::put('/update/{uid}', [ContactController::class, 'update'])->name('update');
 
-    Route::get('/delete/{id}', [ContactController::class, 'destroy'])->name('destroy');
+    Route::get('/delete/{uid}', [ContactController::class, 'destroy'])->name('destroy');
 });

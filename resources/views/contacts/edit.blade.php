@@ -10,7 +10,7 @@
             <a class="btn btn-primary btn-sm" href="{{ route('contacts.index') }}"><i class="fa fa-arrow-left"></i> Back</a>
         </div>
 
-        <form action="{{ route('contacts.update',$contact->id) }}" method="POST">
+        <form action="{{ route('contacts.update',$contact->uid) }}" method="POST">
             @csrf
             @method('PUT')
 

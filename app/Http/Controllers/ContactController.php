@@ -4,20 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactStoreRequest;
 use App\Http\Requests\ContactUpdateRequest;
+use App\Repositories\ContactRepository;
 
 use App\Models\Contact;
+use Exception;
 
 class ContactController extends Controller
 {
+    protected $contactRepository;
+
+    /**
+     * ContactController constructor.
+     * @param RecipeRepository $user
+     */
+    public function __construct(ContactRepository $contact)
+    {
+        $this->contactRepository = $contact;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $contacts = Contact::latest()->paginate(5);
+        $page  = request()->input('page', 1);
+        $limit = request()->input('limit', 5);
+        $contacts = $this->contactRepository->getContacts($limit);
           
         return view('contacts.index', compact('contacts'))
-                    ->with('i', (request()->input('page', 1) - 1) * 5);
+                    ->with('i', ($page - 1) * $limit);
     }
 
     /**
@@ -33,8 +48,10 @@ class ContactController extends Controller
      */
     public function store(ContactStoreRequest $request)
     {
-        Contact::create($request->validated());
-           
+        $params = $request->validated();
+
+        $this->contactRepository->create($params);
+                  
         return redirect()->route('contacts.index')
                          ->with('success', 'Contact created successfully.');
     }
@@ -42,44 +59,58 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $uid)
     {
-        $contact = Contact::find($id);
-        return view('contacts.show', compact('contact'));
+        try {
+            $contact = $this->contactRepository->getContactByUid($uid);
+            return view('contacts.show', compact('contact'));
+        } catch (Exception $e) {
+            return redirect()->route('contacts.index')->with('error', 'Contact not found.');
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $uid)
     {
-        $contact = Contact::find($id);
-        return view('contacts.edit', compact('contact'));
+        try {
+            $contact = $this->contactRepository->getContactByUid($uid);
+            return view('contacts.edit', compact('contact'));
+        } catch (Exception $e) {
+            return redirect()->route('contacts.index')->with('error', 'Contact not found.');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ContactUpdateRequest $request, string $id)
+    public function update(ContactUpdateRequest $request, string $uid)
     {
-        $contact = Contact::find($id);
+        try {
 
-        $contact->update($request->validated());
-          
-        return redirect()->route('contacts.index')
+            $params = $request->validated();
+            $contact = $this->contactRepository->updateContactByUid($params, $uid);
+              
+            return redirect()->route('contacts.index')
                         ->with('success', 'Contact updated successfully');
+
+        } catch (Exception $e) {
+            return redirect()->route('contacts.index')->with('error', 'Contact not found.');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $uid)
     {
-        $contact = Contact::find($id);
-
-        $contact->delete();
-           
-        return redirect()->route('contacts.index')
+        try {
+            $contact = $this->contactRepository->deleteContactByUid($uid);
+            return redirect()->route('contacts.index')
                         ->with('success', 'Contact deleted successfully');
+        } catch (Exception $e) {
+            return redirect()->route('contacts.index')->with('error', 'Contact not found.');
+        }
     }
 }
