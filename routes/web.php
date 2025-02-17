@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 
-Route::get('/', [ContactController::class, 'index']);
+Route::get('/', [ContactController::class, 'index'])->name('contacts.index');
 
 Route::name('contacts.')->group(function () {
     Route::get('/create', [ContactController::class, 'create'])->name('create');
