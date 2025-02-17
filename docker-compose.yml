@@ -50,6 +50,7 @@ services:
       SERVICE_NAME: mysql
     volumes:
       - laravel_crud_app_db_data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - laravel-app-network
 
