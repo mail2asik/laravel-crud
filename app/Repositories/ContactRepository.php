@@ -29,8 +29,9 @@ class ContactRepository
     public function getContacts($limit)
     {
         try {
+            
             $contacts = $this->getModel()->select('uid', 'name', 'phone_number')->latest();
-
+            
             return $contacts->paginate($limit);
         } catch (\Exception $e) {
             Log::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .

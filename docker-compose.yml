@@ -49,7 +49,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
-      - ./laravel_crud_app_db_data:/var/lib/mysql
+      - laravel_crud_app_db_data:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - laravel-app-network
@@ -58,3 +58,8 @@ services:
 networks:
   laravel-app-network:
     driver: bridge
+
+#Volumes
+volumes:
+  laravel_crud_app_db_data:
+    driver: local
