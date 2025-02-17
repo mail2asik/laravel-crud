@@ -1,0 +1,51 @@
+version: '3'
+services:
+  
+  #PHP Service
+  laravel-crud-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-crud-app
+    container_name: laravel-crud-app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    networks:
+      - laravel-app-network
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - laravel-app-network
+
+  #MySQL Service
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel_crud_app
+      MYSQL_ROOT_PASSWORD: rootPassword123
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - laravel-app-network
+
+#Docker Networks
+networks:
+  laravel-app-network:
+    driver: bridge
