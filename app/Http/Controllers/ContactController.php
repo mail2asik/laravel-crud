@@ -53,7 +53,8 @@ class ContactController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $contact = Contact::find($id);
+        return view('contacts.edit', compact('contact'));
     }
 
     /**
